@@ -19,3 +19,5 @@ trait F4DBSupport[A] extends DBSupport[A] {
     f(session)
   }
 }
+
+object F4DBSupport extends F4DBSupport[Any]
