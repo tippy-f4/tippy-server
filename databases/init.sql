@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS employees;
 
 CREATE TABLE employees (
-    id varchar(37) NOT NULL,
+    id varchar(36) NOT NULL,
     name varchar(255) NOT NULL,
     nick_name varchar(255) NOT NULL,
     face_image varchar(255),
@@ -10,18 +10,18 @@ CREATE TABLE employees (
 );
 
 CREATE TABLE cards (
-    id varchar(37) NOT NULL,
+    id varchar(36) NOT NULL,
     message text NOT NULL,
-    employee_id varchar(37) NOT NULL,
+    employee_id varchar(36) NOT NULL,
     created_at timestamp NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_employee_id FOREIGN KEY (employee_id) REFERENCES employees (id)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-\set user_1 '11111111-1111-1111-1111-111111111111';
-\set user_2 '22222222-2222-2222-2222-222222222222';
-\set user_3 '33333333-3333-3333-3333-333333333333';
+\set user_1 '11111111-1111-1111-1111-111111111111'
+\set user_2 '22222222-2222-2222-2222-222222222222'
+\set user_3 '33333333-3333-3333-3333-333333333333'
 
 
 -- initial data
@@ -33,9 +33,9 @@ VALUES
     (:'user_3', '井出優太', 'いでっち', 'http://example.com/idetti')
 ;
 
-\set card_1 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
-\set card_2 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
-\set card_3 'cccccccc-cccc-cccc-cccc-cccccccccccc';
+\set card_1 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+\set card_2 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'
+\set card_3 'cccccccc-cccc-cccc-cccc-cccccccccccc'
 
 INSERT INTO cards
     (id, message, employee_id, created_at)

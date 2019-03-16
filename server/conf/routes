@@ -6,3 +6,4 @@
 GET     /h                          controllers.HelloController.health
 GET     /cards                      controllers.CardController.getAll
 GET     /employees                  controllers.EmployeeController.getAll
+GET     /employee                   controllers.EmployeeController.getById(id)

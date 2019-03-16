@@ -8,7 +8,7 @@ case class EmployeeDto(
   name: String,
   nick_name: String,
   faceImage: String
-)
+) extends OutputDto
 
 object EmployeeDto {
   implicit val jsonFormat: Format[EmployeeDto] = Json.format[EmployeeDto]

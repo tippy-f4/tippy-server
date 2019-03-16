@@ -6,7 +6,7 @@ import javax.inject._
 import play.api.libs.json.Json
 import play.api.mvc.{ AbstractController, AnyContent, ControllerComponents, Request }
 import scalikejdbc.DBSession
-import usecases.dtos.input.GetAllEmployeesInputDto
+import usecases.dtos.input.{ GetAllEmployeesInputDto, GetEmployeeByIdInputDto }
 import usecases.employee.{ GetAllEmployeesUseCase, GetEmployeeByIdUseCase, UsesGetAllEmployeesUseCase, UsesGetEmployeeByIdUseCase }
 
 import scala.concurrent.Future
@@ -35,7 +35,17 @@ abstract class EmployeeControllerTrait(cc: ControllerComponents) extends Abstrac
     }
   }
 
-
+  def getById(id: String) = Action.async { implicit request: Request[AnyContent] =>
+    Future {
+      println(id)
+      val inputDto = GetEmployeeByIdInputDto(id)
+      val outputDto =
+        tx { session =>
+          getEmployeeByIdUseCase.run(inputDto)(session)
+        }
+      Ok(Json.toJson(outputDto))
+    }
+  }
 }
 
 trait MixInGetAllEmployeesUseCase {
