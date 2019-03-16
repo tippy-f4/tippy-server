@@ -7,7 +7,6 @@ import scalikejdbc._
 
 
 case class Cards(id: String, message: String, employeeId: String, createdAt: LocalDateTime) {
-
   def asModel(employees: Employees): Card = {
     val employee = employees.asModel()
     new Card(
