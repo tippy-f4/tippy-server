@@ -5,3 +5,4 @@
 
 GET     /h                          controllers.HelloController.health
 GET     /cards                      controllers.CardController.getAll
+GET     /employees                  controllers.EmployeeController.getAll

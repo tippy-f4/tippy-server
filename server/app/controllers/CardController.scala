@@ -10,6 +10,9 @@ import scalikejdbc.DBSession
 import usecases.dtos.input.{GetAllCardsInputDto, SendCardInputDto}
 import usecases.dtos.output.GetAllCardsOutputDto
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
 @Singleton
 class CardController @Inject()(cc: ControllerComponents)
   extends CardControllerTrait(cc)
@@ -26,12 +29,14 @@ abstract class CardControllerTrait(cc: ControllerComponents)
 
   def tx[M](f: DBSession => M): M
 
-  def getAll() = Action { implicit request: Request[AnyContent] =>
-    val dto: GetAllCardsOutputDto =
-      tx { session =>
-        getAllCardsUseCase.run(GetAllCardsInputDto())(session)
-      }
-    Ok(Json.toJson(dto))
+  def getAll() = Action.async { implicit request: Request[AnyContent] =>
+    Future {
+      val dto: GetAllCardsOutputDto =
+        tx { session =>
+          getAllCardsUseCase.run(GetAllCardsInputDto())(session)
+        }
+      Ok(Json.toJson(dto))
+    }
   }
 
   def sendCard() = Action(parse.json) { implicit request: Request[JsValue] =>
