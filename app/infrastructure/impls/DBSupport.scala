@@ -19,7 +19,7 @@ trait F4DBSupport[A] extends DBSupport[A] {
         val uri = new java.net.URI(dbUrl)
         val userName = uri.getUserInfo().split(":")(0)
         val password = uri.getUserInfo().split(":")(1)
-        s"jdbc:postgresql://${uri.getHost}:${uri.getPort}${uri.getPath}"
+        s"jdbc:postgresql://${uri.getHost}:${uri.getPort}${uri.getPath}?user=${userName}&password=${password}"
       }
       case _ => "jdbc:postgresql://localhost:5432/f4?user=calcio"
     }
