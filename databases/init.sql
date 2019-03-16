@@ -37,9 +37,9 @@ CREATE TABLE praises (
 INSERT INTO employees
     (id, name, nick_name, face_image)
 VALUES
-    (:'user_1', '金美鈴', 'みりょん', 'http://example.com/miryon'),
-    (:'user_2', '泉せいや', 'seiya', 'http://example.com/seiya'),
-    (:'user_3', '井出優太', 'いでっち', 'http://example.com/idetti')
+    (:'user_1', '金美鈴', 'みりょん', 'http://i.pravatar.cc/150?img=5'),
+    (:'user_2', '泉せいや', 'seiya', 'http://i.pravatar.cc/150?img=8'),
+    (:'user_3', '井出優太', 'いでっち', 'http://i.pravatar.cc/150?img=9')
 ;
 
 \set card_1 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
