@@ -11,20 +11,18 @@ trait DBSupport[A] extends SQLSyntaxSupport[A] {
 }
 
 trait F4DBSupport[A] extends DBSupport[A] {
-  val conUrl =
-    Try {
-      sys.env("DATABASE_URL")
-    } match {
-      case Success(dbUrl) => {
-        val uri = new java.net.URI(dbUrl)
-        val userName = uri.getUserInfo().split(":")(0)
-        val password = uri.getUserInfo().split(":")(1)
-        s"jdbc:postgresql://${uri.getHost}:${uri.getPort}${uri.getPath}?user=${userName}&password=${password}"
-      }
-      case _ => "jdbc:postgresql://localhost:5432/f4?user=calcio"
+  Try {
+    sys.env("DATABASE_URL")
+  } match {
+    case Success(dbUrl) => {
+      val uri = new java.net.URI(dbUrl)
+      val userName = uri.getUserInfo().split(":")(0)
+      val password = uri.getUserInfo().split(":")(1)
+      ConnectionPool.singleton(s"jdbc:postgresql://${uri.getHost}:${uri.getPort}${uri.getPath}", userName, password)
     }
-
-  ConnectionPool.singleton(conUrl, "", "")
+    case _ =>
+      ConnectionPool.singleton("jdbc:postgresql://localhost:5432/f4", "calcio", "")
+  }
 
   override def dbName: Any = NamedDB('f4)
 
