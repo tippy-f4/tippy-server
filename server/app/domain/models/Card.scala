@@ -3,7 +3,7 @@ package domain.models
 import java.time.LocalDateTime
 import java.util.UUID
 
-class Card(
+class Card private (
   val id: CardId,
   val message: CardMessage,
   val targetEmployee: Employee,

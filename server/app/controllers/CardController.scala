@@ -7,6 +7,7 @@ import play.api.libs.json.JsValue
 import usecases.card.{GetAllCardsUseCase, SendCardUseCase, UsesGetAllCardsUseCase, UsesSendCardUseCase}
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 import scalikejdbc.DBSession
+import usecases.card.{UsesGetAllCardsUseCase, UsesSendCardUseCase}
 import usecases.dtos.input.{GetAllCardsInputDto, SendCardInputDto}
 import usecases.dtos.output.GetAllCardsOutputDto
 
