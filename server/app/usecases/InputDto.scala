@@ -1,0 +1,3 @@
+package usecases
+
+trait InputDto
