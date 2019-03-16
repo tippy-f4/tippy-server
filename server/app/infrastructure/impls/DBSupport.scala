@@ -1,4 +1,4 @@
-package domain.repositories
+package infrastructure.impls
 
 import scalikejdbc._
 

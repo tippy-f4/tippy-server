@@ -1,12 +1,12 @@
 package domain.models
 
-import org.joda.time.DateTime
+import java.time.LocalDateTime
 
 class Card(
   val id: CardId,
-  val employee: Employee,
   val message: CardMessage,
-  val createdAt: DateTime
+  val targetEmployee: Employee,
+  val createdAt: LocalDateTime
 )
 
 case class CardId(value: String) extends AnyVal

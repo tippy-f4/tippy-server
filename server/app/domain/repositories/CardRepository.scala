@@ -5,11 +5,11 @@ import scalikejdbc.DBSession
 
 import scala.util.Try
 
-trait CardRepository extends F4DBSupport[Card] {
+trait CardRepository {
 
-  def findAll()(implicit session: DBSession = autoSession): Seq[Card]
+  def findAll()(implicit session: DBSession): Seq[Card]
 
-  def findById(id: CardId)(implicit session: DBSession = autoSession): Option[Card]
+  def findById(id: CardId)(implicit session: DBSession): Option[Card]
 
   def register(card: Card)(implicit session: DBSession): Try[Card]
 
