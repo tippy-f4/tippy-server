@@ -1,6 +1,5 @@
 package controllers
 
-import domain.repositories.EmployeeRepository
 import infrastructure.impls.{ F4DBSupport, MixInEmployeeRepository }
 import javax.inject._
 import play.api.libs.json.Json
