@@ -4,10 +4,11 @@ import domain.models.Card
 import play.api.libs.json.{ Format, Json }
 
 case class CardWithEnablePraiseFlagDto(
+  id: String,
   message: String,
   employee_name: String,
   employee_image: String,
-  prise_count: Int,
+  praise_count: Int,
   enable_praise: Boolean,
   created_at: String
 )
@@ -17,6 +18,7 @@ object CardWithEnablePraiseFlagDto {
 
   def apply(card: Card, enablePraiseFlag: Boolean): CardWithEnablePraiseFlagDto = {
     new CardWithEnablePraiseFlagDto(
+      card.id.value,
       card.message.value,
       card.targetEmployee.nickName.value,
       card.targetEmployee.faceImage.url,

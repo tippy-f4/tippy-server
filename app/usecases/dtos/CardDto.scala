@@ -4,10 +4,11 @@ import domain.models.Card
 import play.api.libs.json.{ Format, Json }
 
 case class CardDto(
+  id: String,
   message: String,
   employee_name: String,
   employee_image: String,
-  prise_count: Int,
+  praise_count: Int,
   created_at: String
 )
 
@@ -17,6 +18,7 @@ object CardDto {
   def model2dto(card: Card): CardDto = {
     val employee = card.targetEmployee
     CardDto(
+      card.id.value,
       card.message.value,
       employee.nickName.value,
       employee.faceImage.url,
