@@ -40,15 +40,19 @@ class CardRepositoryImpl extends CardRepository with F4DBSupport[Card]{
       card
     }
   }
+}
+
+trait MixInCardRepository {
+  val cardRepository = new CardRepositoryImpl
 
   override def update(card: Card)(implicit session: DBSession): Try[Card] = {
     Try {
       withSQL {
          QueryDSL.update(Cards).set(
-           Cards.column.id -> card.id.value,
-           Cards.column.message -> card.message.value,
-           Cards.column.employeeId -> card.targetEmployee.id.value,
-           Cards.column.createdAt -> card.createdAt
+          column.id -> card.id.value,
+          column.message -> card.message.value,
+          column.employeeId -> card.targetEmployee.id.value,
+          column.createdAt -> card.createdAt
         )
       }.update().apply()
       card

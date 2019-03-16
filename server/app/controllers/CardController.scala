@@ -7,6 +7,7 @@ import play.api.libs.json.JsValue
 import usecases.card.{GetAllCardsUseCase, SendCardUseCase, UsesGetAllCardsUseCase, UsesSendCardUseCase}
 import play.api.mvc.{AbstractController, AnyContent, ControllerComponents, Request}
 import scalikejdbc.DBSession
+import usecases.card.{UsesGetAllCardsUseCase, UsesSendCardUseCase}
 import usecases.dtos.input.{GetAllCardsInputDto, SendCardInputDto}
 import usecases.dtos.output.GetAllCardsOutputDto
 
@@ -36,6 +37,24 @@ abstract class CardControllerTrait(cc: ControllerComponents)
           getAllCardsUseCase.run(GetAllCardsInputDto())(session)
         }
       Ok(Json.toJson(dto))
+    }
+  }
+
+  def sendCard() = Action(parse.json) { implicit request: Request[JsValue] =>
+    tx { session =>
+      request
+        .body
+        .validate[SendCardInputDto]
+        .fold(
+          _ => BadRequest("Illegal arguments"),
+          params => {
+            sendCardUseCase.run(params)(session).createdCardId.fold(
+              InternalServerError("Failed sending card")
+            )(cardId =>
+              Ok(Json.obj("createdId" -> cardId.toString))
+            )
+          }
+        )
     }
   }
 

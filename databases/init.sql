@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS employees;
 
 CREATE TABLE employees (
-    id varchar(36) NOT NULL,
+    id varchar(37) NOT NULL,
     name varchar(255) NOT NULL,
     nick_name varchar(255) NOT NULL,
     face_image varchar(255),
@@ -10,7 +10,7 @@ CREATE TABLE employees (
 );
 
 CREATE TABLE cards (
-    id varchar(36) NOT NULL,
+    id varchar(37) NOT NULL,
     message text NOT NULL,
     employee_id varchar(36) NOT NULL,
     created_at timestamp NOT NULL,
@@ -22,7 +22,6 @@ CREATE TABLE cards (
 \set user_1 '11111111-1111-1111-1111-111111111111'
 \set user_2 '22222222-2222-2222-2222-222222222222'
 \set user_3 '33333333-3333-3333-3333-333333333333'
-
 
 -- initial data
 INSERT INTO employees

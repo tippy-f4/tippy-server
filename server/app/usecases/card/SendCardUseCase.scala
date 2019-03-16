@@ -7,7 +7,10 @@ import usecases.BaseUseCase
 import usecases.dtos.input.SendCardInputDto
 import usecases.dtos.output.SendCardOutputDto
 
-trait SendCardUseCase extends BaseUseCase[SendCardInputDto, SendCardOutputDto] with UsesCardRepository with UsesEmployeeRepository {
+trait SendCardUseCase
+  extends BaseUseCase[SendCardInputDto, SendCardOutputDto]
+    with UsesCardRepository
+    with UsesEmployeeRepository {
   override def run(inputDto: SendCardInputDto)(implicit session: DBSession): SendCardOutputDto = {
     employeeRepository.findById(EmployeeId(inputDto.employeeId)).fold(
        SendCardOutputDto(None)
