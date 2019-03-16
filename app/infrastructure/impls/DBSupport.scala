@@ -1,6 +1,8 @@
 package infrastructure.impls
 
 import scalikejdbc._
+import scala.util.Try
+import scala.util.Success
 
 trait DBSupport[A] extends SQLSyntaxSupport[A] {
   def dbName: Any
@@ -9,7 +11,20 @@ trait DBSupport[A] extends SQLSyntaxSupport[A] {
 }
 
 trait F4DBSupport[A] extends DBSupport[A] {
-  ConnectionPool.singleton("jdbc:postgresql://localhost:5432/f4", "calcio", "")
+  val conUrl =
+    Try {
+      sys.env("DATABASE_URL")
+    } match {
+      case Success(dbUrl) => {
+        val uri = new java.net.URI(dbUrl)
+        val userName = uri.getUserInfo().split(":")(0)
+        val password = uri.getUserInfo().split(":")(1)
+        s"jdbc:postgresql://${uri.getHost}:${uri.getPort}${uri.getPath}"
+      }
+      case _ => "jdbc:postgresql://localhost:5432/f4?user=calcio"
+    }
+
+  ConnectionPool.singleton(conUrl, "", "")
 
   override def dbName: Any = NamedDB('f4)
 
