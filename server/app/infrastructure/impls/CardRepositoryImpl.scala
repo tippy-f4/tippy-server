@@ -45,10 +45,10 @@ class CardRepositoryImpl extends CardRepository with F4DBSupport[Card]{
     Try {
       withSQL {
          QueryDSL.update(Cards).set(
-          Cards.column.id -> card.id.value,
-          Cards.column.message -> card.message.value,
-          Cards.column.employeeId -> card.targetEmployee.id.value,
-          Cards.column.createdAt -> card.createdAt
+           Cards.column.id -> card.id.value,
+           Cards.column.message -> card.message.value,
+           Cards.column.employeeId -> card.targetEmployee.id.value,
+           Cards.column.createdAt -> card.createdAt
         )
       }.update().apply()
       card
