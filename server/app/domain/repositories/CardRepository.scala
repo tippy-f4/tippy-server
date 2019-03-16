@@ -1,6 +1,6 @@
 package domain.repositories
 
-import domain.models.{ Card, CardId }
+import domain.models.{ Card, CardId, EmployeeId }
 import scalikejdbc.DBSession
 
 import scala.util.Try
@@ -13,7 +13,7 @@ trait CardRepository {
 
   def register(card: Card)(implicit session: DBSession): Try[Card]
 
-  def update(card: Card)(implicit session: DBSession): Try[Card]
+  def update(card: Card, praises: (CardId, EmployeeId))(implicit session: DBSession): Try[Card]
 }
 
 trait UsesCardRepository {

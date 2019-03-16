@@ -7,6 +7,7 @@ case class CardDto(
   message: String,
   employee_name: String,
   employee_image: String,
+  prise_count: Int,
   created_at: String
 )
 
@@ -19,6 +20,7 @@ object CardDto {
       card.message.value,
       employee.nickName.value,
       employee.faceImage.url,
+      card.employeeIdPraised.length,
       card.createdAt.toString
     )
   }

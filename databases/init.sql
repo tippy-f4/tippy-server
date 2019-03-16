@@ -1,8 +1,9 @@
+DROP TABLE IF EXISTS praises;
 DROP TABLE IF EXISTS cards;
 DROP TABLE IF EXISTS employees;
 
 CREATE TABLE employees (
-    id varchar(37) NOT NULL,
+    id varchar(36) NOT NULL,
     name varchar(255) NOT NULL,
     nick_name varchar(255) NOT NULL,
     face_image varchar(255),
@@ -10,11 +11,20 @@ CREATE TABLE employees (
 );
 
 CREATE TABLE cards (
-    id varchar(37) NOT NULL,
+    id varchar(36) NOT NULL,
     message text NOT NULL,
     employee_id varchar(36) NOT NULL,
     created_at timestamp NOT NULL,
     PRIMARY KEY (id),
+    CONSTRAINT fk_employee_id FOREIGN KEY (employee_id) REFERENCES employees (id)
+    ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+CREATE TABLE praises (
+    card_id varchar(36) NOT NULL,
+    employee_id varchar(36) NOT NULL,
+    CONSTRAINT fk_card_id FOREIGN KEY (card_id) REFERENCES cards (id)
+    ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT fk_employee_id FOREIGN KEY (employee_id) REFERENCES employees (id)
     ON DELETE NO ACTION ON UPDATE NO ACTION
 );
@@ -41,5 +51,13 @@ INSERT INTO cards
 VALUES
 (:'card_1', 'ありがとう', :'user_1', current_timestamp),
 (:'card_2', 'Thank you', :'user_2', (current_timestamp + interval '1 hour')),
-(:'card_3', 'Merci', :'user_3', (current_timestamp + interval '1 hour'))
+(:'card_3', 'Merci', :'user_3', (current_timestamp + interval '2 hour'))
+;
+
+INSERT INTO praises
+    (card_id, employee_id)
+VALUES
+(:'card_1', :'user_2'),
+(:'card_2', :'user_1'),
+(:'card_2', :'user_3')
 ;

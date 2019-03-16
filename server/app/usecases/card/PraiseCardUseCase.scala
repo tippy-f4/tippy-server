@@ -17,6 +17,7 @@ trait PraiseCardUseCase
        PraiseCardOutputDto(None)
     )(employee => {
       // TODO: あとでつくる
+      PraiseCardOutputDto(None)
     })
   }
 }

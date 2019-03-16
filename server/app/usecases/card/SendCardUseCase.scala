@@ -1,13 +1,12 @@
 package usecases.card
 
-import domain.models.{Card, CardMessage, EmployeeId}
-import domain.repositories.{UsesCardRepository, UsesEmployeeRepository}
+import domain.models.{ Card, CardMessage, EmployeeId }
+import domain.repositories.{ UsesCardRepository, UsesEmployeeRepository }
 import scalikejdbc.DBSession
 import usecases.BaseUseCase
 import usecases.dtos.input.SendCardInputDto
 import usecases.dtos.output.SendCardOutputDto
-
-import scala.util.{Failure, Success, Try}
+import utils.InvalidParameterException
 
 trait SendCardUseCase
   extends BaseUseCase[SendCardInputDto, SendCardOutputDto]
@@ -15,20 +14,16 @@ trait SendCardUseCase
     with UsesEmployeeRepository {
 
   override def run(inputDto: SendCardInputDto)(implicit session: DBSession): SendCardOutputDto = {
-    Try {
-      employeeRepository.findById(EmployeeId(inputDto.employeeId)).fold(
-        throw new RuntimeException("Employee not found")
-      )(employee => {
-        val newCard = Card.create(CardMessage(inputDto.message), employee)
-        cardRepository.register(newCard).fold(
-          throw new RuntimeException("Failed creating card"),
-          identity
-        )
-      })
-    } match {
-      case Success(card) => SendCardOutputDto(Some(card.id))
-      case Failure(_) => SendCardOutputDto(None)
-    }
+    val outputDtoOpt =
+      for {
+        employee <- employeeRepository.findById(EmployeeId(inputDto.employee_id))
+        newCard = Card.create(CardMessage(inputDto.message), employee)
+        card <- cardRepository.register(newCard).toOption
+      } yield {
+        SendCardOutputDto(card.id.value)
+      }
+
+    outputDtoOpt.getOrElse(throw InvalidParameterException("Error on saving new card"))
   }
 }
 
