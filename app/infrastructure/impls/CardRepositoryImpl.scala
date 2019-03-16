@@ -58,17 +58,17 @@ class CardRepositoryImpl extends CardRepository with F4DBSupport[Card]{
 
   override def update(card: Card, praises: (CardId, EmployeeId))(implicit session: DBSession): Try[Card] = {
     Try {
-      withSQL {
-        QueryDSL.update(Cards).set(
-          Cards.column.id -> card.id.value,
-          Cards.column.message -> card.message.value,
-          Cards.column.employeeId -> card.targetEmployee.id.value,
-          Cards.column.createdAt -> card.createdAt
-        )
-      }.update().apply()
+//      withSQL {
+//        QueryDSL.update(Cards).set(
+//          Cards.column.id -> card.id.value,
+//          Cards.column.message -> card.message.value,
+//          Cards.column.employeeId -> card.targetEmployee.id.value,
+//          Cards.column.createdAt -> card.createdAt
+//        )
+//      }.update().apply()
 
       withSQL {
-        QueryDSL.update(Praises).set(
+        insert.into(Praises).namedValues(
           Praises.column.cardId -> praises._1.value,
           Praises.column.employeeId -> praises._2.value,
         )
