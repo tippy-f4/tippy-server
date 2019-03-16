@@ -23,6 +23,7 @@ lazy val defaultDependencies = {
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.1" % Test
+libraryDependencies += "org.postgresql" % "postgresql" % "9.4.1211"
 libraryDependencies ++= defaultDependencies
 
 // Adds additional packages into Twirl

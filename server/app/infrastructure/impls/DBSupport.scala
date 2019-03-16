@@ -9,8 +9,7 @@ trait DBSupport[A] extends SQLSyntaxSupport[A] {
 }
 
 trait F4DBSupport[A] extends DBSupport[A] {
-  Class.forName("com.mysql.jdbc.Driver")
-  ConnectionPool.singleton("jdbc:mysql://localhost:3306/f4?useSSL=false", "calcio", "")
+  ConnectionPool.singleton("jdbc:postgresql://localhost:5432/f4", "calcio", "")
 
   override def dbName: Any = NamedDB('f4)
 
