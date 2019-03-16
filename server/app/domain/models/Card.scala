@@ -1,8 +1,9 @@
 package domain.models
 
 import java.time.LocalDateTime
+import java.util.UUID
 
-class Card(
+class Card private (
   val id: CardId,
   val message: CardMessage,
   val targetEmployee: Employee,
@@ -11,3 +12,13 @@ class Card(
 
 case class CardId(value: String) extends AnyVal
 case class CardMessage(value: String) extends AnyVal
+
+object Card {
+  def create(message: CardMessage, employee: Employee): Card =
+    new Card(
+      CardId(UUID.randomUUID().toString),
+      message,
+      employee,
+      LocalDateTime.now()
+    )
+}
