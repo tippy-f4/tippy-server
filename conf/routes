@@ -4,7 +4,7 @@
 # ~~~~
 
 GET     /h                          controllers.HelloController.health
-GET     /cards                      controllers.CardController.getByEmployeeId(employee_id)
+GET     /cards/employee_id          controllers.CardController.getByEmployeeId(employee_id)
 GET     /cards                      controllers.CardController.getAll
 POST    /card                       controllers.CardController.sendCard
 GET     /employees                  controllers.EmployeeController.getAll
