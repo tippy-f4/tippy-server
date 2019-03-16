@@ -7,5 +7,6 @@ GET     /h                          controllers.HelloController.health
 GET     /cards/employee_id          controllers.CardController.getByEmployeeId(employee_id)
 GET     /cards                      controllers.CardController.getAll
 POST    /card                       controllers.CardController.sendCard
+POST    /card/praise                controllers.CardController.praiseCard
 GET     /employees                  controllers.EmployeeController.getAll
 GET     /employee                   controllers.EmployeeController.getById(id)

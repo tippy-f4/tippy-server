@@ -1,24 +1,24 @@
 package controllers
 
 import infrastructure.impls.{ F4DBSupport, MixInCardRepository, MixInEmployeeRepository }
-import play.api.libs.json._
 import javax.inject._
-import play.api.libs.json.JsValue
-import usecases.card._
+import play.api.libs.json.{ JsValue, _ }
 import play.api.mvc.{ AbstractController, AnyContent, ControllerComponents, Request }
 import scalikejdbc.DBSession
-import usecases.dtos.input.{ GetAllCardsInputDto, GetCardsByEmployeeIdInputDto, SendCardInputDto }
-import usecases.dtos.output.{ GetAllCardsOutputDto, SendCardOutputDto }
+import usecases.card._
+import usecases.dtos.input.{ GetAllCardsInputDto, GetCardsByEmployeeIdInputDto, PraiseCardInputDto, SendCardInputDto }
+import usecases.dtos.output.GetAllCardsOutputDto
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 @Singleton
 class CardController @Inject()(cc: ControllerComponents)
   extends CardControllerTrait(cc)
     with MixInSendCardUseCase
     with MixInGetAllCardsUseCase
-    with MixInGetCardsByEmployeeIdUseCase {
+    with MixInGetCardsByEmployeeIdUseCase
+    with MixInPraiseUseCase {
 
   override def tx[M](f: DBSession => M): M = F4DBSupport.transaction(f)
 }
@@ -27,7 +27,8 @@ abstract class CardControllerTrait(cc: ControllerComponents)
   extends AbstractController(cc)
     with UsesGetAllCardsUseCase
     with UsesSendCardUseCase
-    with UsesGetCardsByEmployeeIdUseCase {
+    with UsesGetCardsByEmployeeIdUseCase
+    with UsesPraiseUseCase {
 
   def tx[M](f: DBSession => M): M
 
@@ -64,6 +65,17 @@ abstract class CardControllerTrait(cc: ControllerComponents)
       Ok(Json.toJson(outputDto))
     }
   }
+
+  def praiseCard() = Action.async(parse.json) { implicit request: Request[JsValue] =>
+    Future {
+      tx { session =>
+        request.body.validate[PraiseCardInputDto].map { praiseCardInputDto =>
+          val outputDto = praiseCardUseCase.run(praiseCardInputDto)(session)
+          Ok(Json.toJson(outputDto))
+        }.getOrElse(BadRequest("Illegal arguments"))
+      }
+    }
+  }
 }
 
 trait MixInGetAllCardsUseCase {
@@ -78,3 +90,6 @@ trait MixInGetCardsByEmployeeIdUseCase {
   val getCardsByEmployeeIdUseCase: GetCardsByEmployeeIdUseCase = new GetCardsByEmployeeIdUseCase with MixInCardRepository with MixInEmployeeRepository
 }
 
+trait MixInPraiseUseCase {
+  val praiseCardUseCase: PraiseCardUseCase = new PraiseCardUseCase with MixInCardRepository with MixInEmployeeRepository
+}
