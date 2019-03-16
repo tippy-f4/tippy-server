@@ -1,3 +1,5 @@
 package usecases.dtos.input
 
-case class GetAllCardsInputDto()
+import usecases.dtos.InputDto
+
+case class GetAllCardsInputDto() extends InputDto

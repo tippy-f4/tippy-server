@@ -13,9 +13,9 @@ trait EmployeeRepository {
 
   def findByNickName(nickName: NickName)(implicit session: DBSession): Seq[Employee]
 
-  def register(employee: Employee)(implicit session: DBSession): Try[Employee]
-
-  def update(employee: Employee)(implicit session: DBSession): Try[Employee]
+//  def register(employee: Employee)(implicit session: DBSession): Try[Employee]
+//
+//  def update(employee: Employee)(implicit session: DBSession): Try[Employee]
 }
 
 trait UsesEmployeeRepository {

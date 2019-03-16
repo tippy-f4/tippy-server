@@ -15,13 +15,23 @@ class EmployeeRepositoryImpl extends EmployeeRepository with F4DBSupport[Employe
     }.map(rs => Employees(e)(rs)).list.apply().map(_.asModel())
   }
 
-  override def findById(id: EmployeeId)(implicit session: DBSession): Option[Employee] = {
-    
+  override def findById(employeeId: EmployeeId)(implicit session: DBSession): Option[Employee] = {
+    withSQL {
+      select.from(Employees as e).where.eq(e.id, employeeId.value)
+    }.map(rs => Employees(e)(rs)).single.apply().map(_.asModel())
   }
 
-  override def findByNickName(nickName: NickName)(implicit session: DBSession): Seq[Employee] = ???
+  override def findByNickName(nickName: NickName)(implicit session: DBSession): Seq[Employee] = {
+    withSQL {
+      select.from(Employees as e).where.eq(e.id, nickName.value)
+    }.map(rs => Employees(e)(rs)).list.apply().map(_.asModel())
+  }
 
-  override def register(employee: Employee)(implicit session: DBSession): Try[Employee] = ???
+//  override def register(employee: Employee)(implicit session: DBSession): Try[Employee] = ???
+//
+//  override def update(employee: Employee)(implicit session: DBSession): Try[Employee] = ???
+}
 
-  override def update(employee: Employee)(implicit session: DBSession): Try[Employee] = ???
+trait MixInEmployeeRepository {
+  val employeeRepository = new EmployeeRepositoryImpl
 }

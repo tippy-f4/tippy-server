@@ -1,6 +1,7 @@
 package usecases.dtos
 
 import domain.models.Card
+import play.api.libs.json.{ Format, Json }
 
 case class CardDto(
   message: String,
@@ -10,6 +11,8 @@ case class CardDto(
 )
 
 object CardDto {
+  implicit val jsonFormat: Format[CardDto] = Json.format[CardDto]
+
   def model2dto(card: Card): CardDto = {
     val employee = card.targetEmployee
     CardDto(

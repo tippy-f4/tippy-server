@@ -11,6 +11,7 @@ lazy val defaultDependencies = {
   val scalikeJdbcDependencies = {
     val scalikeJdbcVersion = "3.2.3"
     List(
+      "mysql" % "mysql-connector-java" % "5.1.36",
       "org.scalikejdbc" %% "scalikejdbc"        % scalikeJdbcVersion,
       "org.scalikejdbc" %% "scalikejdbc-config" % scalikeJdbcVersion,
       "org.scalikejdbc" %% "scalikejdbc-play-initializer" % "2.6.0-scalikejdbc-3.2"
